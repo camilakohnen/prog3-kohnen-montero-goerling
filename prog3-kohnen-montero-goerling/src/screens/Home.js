@@ -1,5 +1,6 @@
 import React from "react";
 import NovSinBoton from "../components/VerTodos/NovSinBoton";
+import ClaSinBoton from "../components/VerTodos/ClaSinBoton";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 
 function Home() {
@@ -9,6 +10,8 @@ function Home() {
             <main>
                 <Link to={"/novedades"}><h2>Novedades</h2></Link>
                 <NovSinBoton/>
+                <Link to={"/clasicos"}><h2>Mira los clásicos</h2></Link>    
+                <ClaSinBoton/>
             </main>
         </React.Fragment>
     );
