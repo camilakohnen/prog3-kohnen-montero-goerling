@@ -1,16 +1,14 @@
 import React, {Component} from "react";
-import Novedad from "../Ver/novedades";
+import Novedades from "../Ver/novedades";
 import "./Peliculas.css";
 const APIKEY = '73bbcaff8fd928767c5142a00f422fa2'
 
-class Novedades extends Component{
+class NovSinBoton extends Component{
     constructor(props){
         super(props)
         this.state = {
-            verMas : false,
             peliculas:[],
             MasMenos : false, 
-            NombreBoton : "Más Peliculas",
         }
     }
 
@@ -32,33 +30,27 @@ class Novedades extends Component{
             console.log(this.state);
             
             this.setState({
-                MasMenos: false,
-                NombreBoton : "Más Peliculas"
+                MasMenos: false 
             })
         } else {
             this.setState({
                 MasMenos: true, 
-                NombreBoton : "Menos Peliculas"
             })
         }
     }
 
-    
 
     render(){
         return (
             <>
-                <h2>Novedades</h2>            
                 <section className="card-container">
-                    {this.state.peliculas.slice(0,3).map((elm)=> <Novedad data={elm}/>)}
-                    {this.state.MasMenos === true ? <>{this.state.peliculas.slice(3, this.state.peliculas.length).map((elm)=> <Novedad data={elm}/>)}</> : null }
+                    {this.state.peliculas.slice(0,3).map((elm)=> <Novedades data={elm}/>)}
+                    {this.state.MasMenos === true ? <>{this.state.peliculas.slice(3, this.state.peliculas.length).map((elm)=> <Novedades data={elm}/>)}</> : null }
                 </section>
-                
-                <button onClick={ () => this.MasMenosPeliculas()} className='more'> {this.state.NombreBoton}</button>
             </>
         )
     }
     
 }
 
-export default Novedades;
+export default NovSinBoton;
