@@ -5,7 +5,7 @@ import Details from "./screens/Details";
 import Navbar from "./components/Header";
 import Favoritos from "./screens/Favoritos";
 import NovedadesConBoton from "./screens/Novedades";
-import Clasicos from "./components/VerTodos/clasicos";
+import ClasicosConBoton from "./screens/Clasicos";
 import Footer from "./components/Footer";
 
 function App(props){
@@ -17,7 +17,7 @@ function App(props){
         <Route path='/' exact={true} component={Home}></Route>
         <Route path='/favoritos' component={Favoritos}></Route>
         <Route path='/novedades' component={NovedadesConBoton}></Route>
-        <Route path='/clasicos' component={Clasicos}></Route>
+        <Route path='/clasicos' component={ClasicosConBoton}></Route>
         <Route path='/detalle/id/:id' component={Details}></Route>
         <Route path='' component={NotFound}></Route>
       </Switch>
