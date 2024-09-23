@@ -51,9 +51,9 @@ class NovedadesConBoton extends Component {
                     <p>Cargando...</p>  // Mensaje de carga
                 ) : (
                 <section className="card-container">
-                    {this.state.peliculas.slice(0,3).map((elm)=> <Novedades data={elm}/>)}
-                    {this.state.MasMenos === true ? <>{this.state.peliculas.slice(3, this.state.peliculas.length).map((elm)=> <Novedades data={elm}/>)}</> : null }
-                    <button onClick={ () => this.MasMenosPeliculas()} className='more'> Mas Peliculas</button>
+                    {this.state.peliculas.slice(0,5).map((elm)=> <Novedades data={elm}/>)}
+                    {this.state.MasMenos === true ? <>{this.state.peliculas.slice(5, this.state.peliculas.length).map((elm)=> <Novedades data={elm}/>)}</> : null }
+
                 </section>
                 
                 )}

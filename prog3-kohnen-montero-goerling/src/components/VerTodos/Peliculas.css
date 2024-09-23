@@ -21,6 +21,23 @@
     box-shadow: 0 .15rem 1.75rem 0 rgba(58,59,69,.15);
 }
 
+
+.character-card-details{
+    color: #777;
+    font-size: 20px;
+    padding: 10px;
+    margin-bottom: 20px;
+    margin: 10px;
+    margin-left: 35%;
+    width: 30%;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    background: #fff;
+    border-radius: 5px;
+    box-shadow: 0 .15rem 1.75rem 0 rgba(58,59,69,.15);
+}
+
 .character-card img{
     width: 100%;
     margin-bottom: 20px; 
