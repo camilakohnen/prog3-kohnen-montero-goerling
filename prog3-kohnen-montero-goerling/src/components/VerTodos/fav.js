@@ -17,43 +17,43 @@ class Fav extends Component {
 
     componentDidMount() {
         let storage = localStorage.getItem('pelisFavs');
-        storage 
-            ? (() => {
-                console.log('Películas en storage:', storage);
-                let arrParseado = JSON.parse(storage);
-                arrParseado.length
-                    ? Promise.all(arrParseado.map(id =>
-                        fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=${APIKEY}`)
-                            .then((resp) => resp.json())
-                            .catch((err) => console.log('Error al obtener película:', err))
-                    ))
-                        .then((peliculas) => {
-                            console.log('Películas cargadas:', peliculas);
-                            this.setState({ peliculas, cargando: false });
-                        })
-                        .catch((err) => {
-                            console.log('Error al cargar películas:', err);
-                            this.setState({ cargando: false });
-                        })
-                    : this.setState({ cargando: false });
-            })()
-            : this.setState({ cargando: false });
+        if (storage) {
+            console.log('Películas en storage:', storage);
+            let arrParseado = JSON.parse(storage);
+            if (arrParseado.length) {
+                Promise.all(arrParseado.map(id =>
+                    fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=${APIKEY}`)
+                        .then((resp) => resp.json())
+                        .catch((err) => console.log('Error al obtener película:', err))
+                ))
+                .then((peliculas) => {
+                    console.log('Películas cargadas:', peliculas); 
+                    this.setState({ peliculas, cargando: false });
+                })
+                .catch((err) => {
+                    console.log('Error al cargar películas:', err);
+                    this.setState({ cargando: false }); 
+                });
+            } else {
+                this.setState({ cargando: false }); 
+            }
+        } else {
+            this.setState({ cargando: false }); 
+        }
     }
 
     sacarDeStorage(id) {
         let storage = localStorage.getItem('pelisFavs');
-        storage 
-            ? (() => {
-                let storageParseado = JSON.parse(storage);
-                let filtrado = storageParseado.filter(idFav => idFav !== id);
-                let storageStringificado = JSON.stringify(filtrado);
-                localStorage.setItem('pelisFavs', storageStringificado);
-                this.setState(prevState => ({
-                    peliculas: prevState.peliculas.filter(pelicula => pelicula.id !== id),
-                    esFavorito: false
-                }));
-            })()
-            : null;
+        if (storage) {
+            let storageParseado = JSON.parse(storage);
+            let filtrado = storageParseado.filter(idFav => idFav !== id);
+            let storageStringificado = JSON.stringify(filtrado);
+            localStorage.setItem('pelisFavs', storageStringificado);
+            this.setState(prevState => ({
+                peliculas: prevState.peliculas.filter(pelicula => pelicula.id !== id),
+                esFavorito: false
+            }));
+        }
     }
 
     verMasVerMenos(id) {
