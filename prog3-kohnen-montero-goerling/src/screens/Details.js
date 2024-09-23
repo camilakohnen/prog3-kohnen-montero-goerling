@@ -9,7 +9,6 @@ class Details extends Component {
         this.state = {
             pelicula: null,
             esFavorito: false,
-            cargando: true,  // Estado de cargando
         };
     }
 
@@ -19,101 +18,67 @@ class Details extends Component {
             .then((resp) => resp.json())
             .then((data) => {
                 console.log('Data de la película:', data);
-                this.setState({
-                    pelicula: data
-                });
-                // Verificar si la película es favorita al cargar
+                this.setState({ pelicula: data });
                 this.verificarFavorito(data.id);
-                // Cambiar el estado de cargando a false después de 3 segundos
-                setTimeout(() => {
-                    this.setState({ cargando: false });
-                }, 3000);
             })
             .catch((err) => console.log('Error al obtener datos:', err));
     }
 
     verificarFavorito(id) {
-        let storage = localStorage.getItem('pelisFavs');
-        if (storage !== null) {
-            let storageParseado = JSON.parse(storage);
-            if (storageParseado.includes(id)) {
-                this.setState({ esFavorito: true });
-            }
-        }
+        const storage = localStorage.getItem('pelisFavs');
+        this.setState({ esFavorito: storage ? JSON.parse(storage).includes(id) : false });
     }
 
     agregarAStorage() {
         const { pelicula } = this.state;
-        if (pelicula) {
-            const id = pelicula.id;
-            let storage = localStorage.getItem('pelisFavs');
-            if (storage !== null) {
-                let storageParseado = JSON.parse(storage);
-                if (!storageParseado.includes(id)) {
-                    storageParseado.push(id);
-                    let storageStringificado = JSON.stringify(storageParseado);
-                    localStorage.setItem('pelisFavs', storageStringificado);
-                    this.setState({ esFavorito: true });
-                }
-            } else {
-                let arrFavs = [id];
-                let favsStringificado = JSON.stringify(arrFavs);
-                localStorage.setItem('pelisFavs', favsStringificado);
-                this.setState({ esFavorito: true });
-            }
-        }
+        pelicula 
+            ? (() => {
+                const id = pelicula.id;
+                const storage = localStorage.getItem('pelisFavs');
+                const storageParseado = storage ? JSON.parse(storage) : [];
+                !storageParseado.includes(id)
+                    ? (() => {
+                        localStorage.setItem('pelisFavs', JSON.stringify([...storageParseado, id]));
+                        this.setState({ esFavorito: true });
+                    })()
+                    : null;
+            })()
+            : null;
     }
 
     sacarDeStorage() {
         const { pelicula } = this.state;
-        if (pelicula) {
-            const id = pelicula.id;
-            let storage = localStorage.getItem('pelisFavs');
-            if (storage !== null) {
-                let storageParseado = JSON.parse(storage);
-                let filtrado = storageParseado.filter(idFav => idFav !== id);
-                let storageStringificado = JSON.stringify(filtrado);
-                localStorage.setItem('pelisFavs', storageStringificado);
+        pelicula 
+            ? (() => {
+                const id = pelicula.id;
+                const storage = localStorage.getItem('pelisFavs');
+                const storageParseado = storage ? JSON.parse(storage) : [];
+                const filtrado = storageParseado.filter(idFav => idFav !== id);
+                localStorage.setItem('pelisFavs', JSON.stringify(filtrado));
                 this.setState({ esFavorito: false });
-            }
-        }
+            })()
+            : null;
     }
 
-
-
     render() {
-
         const { pelicula, esFavorito } = this.state;
 
-
-        if (!pelicula) {
-            return null; // No muestra nada si no hay datos de película
-        }
-
-        return (
+        return pelicula ? (
             <div className="character-card-details">
-                <img src= {`https://image.tmdb.org/t/p/w342/${pelicula.poster_path}`} alt={pelicula.title} />
-                <h2><strong> {pelicula.title} </strong> </h2>
+                <img src={`https://image.tmdb.org/t/p/w342/${pelicula.poster_path}`} alt={pelicula.title} />
+                <h2><strong>{pelicula.title}</strong></h2>
                 <section className='extra'>
-
-                    <p> <strong>Fecha de estreno: </strong> {pelicula.release_date}</p>
-                    <p> <strong>Duración:</strong>  {pelicula.runtime}</p>
-                    <p> <strong>Rating:</strong>  {pelicula.popularity}</p>   
-                    <p> <strong>Género:</strong>  {pelicula.genres[0].name}</p>
-                    <p> <strong>Descripción: </strong> {pelicula.overview}</p>
-                    
-                    {esFavorito ? (
-                        <button onClick={() => this.sacarDeStorage()}>
-                            Sacar de favs
-                        </button>
-                    ) : (
-                        <button onClick={() => this.agregarAStorage()}>
-                            Agregar a favoritos
-                        </button>
-                    )}
+                    <p><strong>Fecha de estreno:</strong> {pelicula.release_date}</p>
+                    <p><strong>Duración:</strong> {pelicula.runtime}</p>
+                    <p><strong>Rating:</strong> {pelicula.popularity}</p>
+                    <p><strong>Género:</strong> {pelicula.genres[0]?.name}</p>
+                    <p><strong>Descripción:</strong> {pelicula.overview}</p>
+                    <button onClick={() => esFavorito ? this.sacarDeStorage() : this.agregarAStorage()}>
+                        {esFavorito ? "Sacar de favs" : "Agregar a favoritos"}
+                    </button>
                 </section>
             </div>
-        );
+        ) : null;
     }
 }
 
