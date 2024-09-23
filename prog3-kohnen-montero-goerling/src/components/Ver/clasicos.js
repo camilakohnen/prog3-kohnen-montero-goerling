@@ -7,6 +7,7 @@ class Clasico extends Component {
         this.state = {
             verMas : false,
             esFavorito : false,
+            NombreBoton : "Ver más"
         }
     }
 
@@ -26,11 +27,13 @@ class Clasico extends Component {
     verMasVerMenos(){
         if(this.state.verMas === true){
             this.setState({
-                verMas: false 
+                verMas: false,
+                NombreBoton : "Ver Más"
             })
         } else {
             this.setState({
                 verMas: true, 
+                NombreBoton: "Ver menos"
             })
         }
     }
@@ -94,8 +97,8 @@ class Clasico extends Component {
                 {
                         this.state.verMas === true ? <p>{this.props.data.overview}</p> : null 
                 }
-                <button onClick={ () => this.verMasVerMenos()} className='more'> Ver mas</button>
-            </div>
+                <button onClick={ () => this.verMasVerMenos()} className='more'> {this.state.NombreBoton}</button>
+                </div>
         )
     }
 }

@@ -43,8 +43,8 @@ class ClasicosConBoton extends Component{
             <>
                 <h2>Clasicos</h2> 
                 <section className="card-container">
-                    {this.state.peliculas.slice(0,3).map((elm)=> <Clasico data={elm}/>)}
-                    {this.state.MasMenos === true ? <>{this.state.peliculas.slice(3, this.state.peliculas.length).map((elm)=> <Clasico data={elm}/>)}</> : null }
+                    {this.state.peliculas.slice(0,5).map((elm)=> <Clasico data={elm}/>)}
+                    {this.state.MasMenos === true ? <>{this.state.peliculas.slice(5, this.state.peliculas.length).map((elm)=> <Clasico data={elm}/>)}</> : null }
                 </section>
                 <button onClick={ () => this.MasMenosPeliculas()} className='more'> Mas Peliculas</button>
             </>
