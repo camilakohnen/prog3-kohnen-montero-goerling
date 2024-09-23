@@ -7,6 +7,7 @@ export default class Resultados extends Component {
         super(props)
         this.state = { 
             resultados : [],
+            cargando: true,  // Estado de cargando
         }
     }
 
@@ -17,11 +18,17 @@ export default class Resultados extends Component {
                 .then(data => {
                     console.log('data', data);
                     this.setState({resultados: data.results})
+                    setTimeout(() => {
+                        this.setState({ cargando: false });
+                    }, 3000);
                 })
                 .catch((err) => console.log('Error al obtener película:', err))
     }
   render() {
     return (
+        this.state.cargando ? (
+            <p>Cargando...</p>  // Mensaje de carga
+        ) : (
         <section className="card-container">
         {
             this.state.resultados.length > 0 ? 
@@ -32,7 +39,7 @@ export default class Resultados extends Component {
                     <h2>{e.title}</h2>
                 </Link>
                 <section className='extra'>
-                    <p>Adultos: {e.adult ? "atp" : "+18"}</p>
+                    <p>Adultos: {e.adult ? "+18" : "atp"}</p>
                 </section>
                 <button onClick={() => this.sacarDeStorage(e.id)}>
                     Sacar de favs
@@ -48,6 +55,7 @@ export default class Resultados extends Component {
             : <h1> No hay reusltados de busqueda</h1>
         }
         </section>
+    )
     )
   }
 }
