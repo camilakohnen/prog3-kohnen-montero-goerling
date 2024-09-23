@@ -9,6 +9,7 @@ class Details extends Component {
         this.state = {
             pelicula: null,
             esFavorito: false,
+            cargando: true,  // Estado de cargando
         };
     }
 
@@ -20,6 +21,9 @@ class Details extends Component {
                 console.log('Data de la película:', data);
                 this.setState({ pelicula: data });
                 this.verificarFavorito(data.id);
+                setTimeout(() => {
+                    this.setState({ cargando: false });
+                }, 3000);
             })
             .catch((err) => console.log('Error al obtener datos:', err));
     }
@@ -75,6 +79,9 @@ class Details extends Component {
         const { pelicula, esFavorito } = this.state;
 
         return pelicula ? (
+            this.state.cargando ? (
+                <p>Cargando...</p>  // Mensaje de carga
+            ) : (
             <div className="character-card-details">
                 <img src={`https://image.tmdb.org/t/p/w342/${pelicula.poster_path}`} alt={pelicula.title} />
                 <h2><strong>{pelicula.title}</strong></h2>
@@ -89,6 +96,7 @@ class Details extends Component {
                     </button>
                 </section>
             </div>
+            )
         ) : null;
     }
 }

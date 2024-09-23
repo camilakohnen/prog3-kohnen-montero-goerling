@@ -53,7 +53,6 @@ class NovedadesConBoton extends Component {
                 <section className="card-container">
                     {this.state.peliculas.slice(0,5).map((elm)=> <Novedades data={elm}/>)}
                     {this.state.MasMenos === true ? <>{this.state.peliculas.slice(5, this.state.peliculas.length).map((elm)=> <Novedades data={elm}/>)}</> : null }
-
                 </section>
                 
                 )}

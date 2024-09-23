@@ -9,7 +9,7 @@ class Fav extends Component {
         this.state = {
             peliculaExpandidaId: null,
             peliculas: [],
-            cargando: true,
+            cargando: true, // Estado de cargando
             esFavorito: true,
         };
     }
@@ -27,7 +27,10 @@ class Fav extends Component {
                 ))
                 .then((peliculas) => {
                     console.log('Películas cargadas:', peliculas); 
-                    this.setState({ peliculas, cargando: false });
+                    this.setState({ peliculas});
+                    setTimeout(() => {
+                      this.setState({ cargando: false });
+                  }, 3000);
                 })
                 .catch((err) => {
                     console.log('Error al cargar películas:', err);
@@ -65,32 +68,36 @@ class Fav extends Component {
         return (
             <>
                 <h2>Favoritos</h2>
-                <section className="card-container">
-                    {this.state.peliculas.map(e => (
-                        <div className="character-card" key={e.id}>
-                            <img src={`https://image.tmdb.org/t/p/w342/${e.poster_path}`} alt={e.title} />
-                            
-                            <Link to={`/detalle/id/${e.id}`}>
-                                <h2><strong>{e.title}</strong></h2>
-                            </Link>
+                {this.state.cargando ? ( // Verifica si está cargando
+                    <p>Cargando...</p> // Mensaje de carga
+                ) : (
+                    <section className="card-container">
+                        {this.state.peliculas.map(e => (
+                            <div className="character-card" key={e.id}>
+                                <img src={`https://image.tmdb.org/t/p/w342/${e.poster_path}`} alt={e.title} />
+                                
+                                <Link to={`/detalle/id/${e.id}`}>
+                                    <h2><strong>{e.title}</strong></h2>
+                                </Link>
 
-                            <button onClick={() => this.sacarDeStorage(e.id)}>
-                                Sacar de favs
-                            </button>
+                                <button onClick={() => this.sacarDeStorage(e.id)}>
+                                    Sacar de favs
+                                </button>
 
-                            <p><strong>Fecha de estreno: </strong>{e.release_date}</p>
-                            <p><strong>Duración: </strong>{e.runtime}</p>
-                            <p><strong>Rating: </strong>{e.popularity}</p>
-                            <p><strong>Género: </strong>{e.genres[0]?.name}</p> 
+                                <p><strong>Fecha de estreno: </strong>{e.release_date}</p>
+                                <p><strong>Duración: </strong>{e.runtime}</p>
+                                <p><strong>Rating: </strong>{e.popularity}</p>
+                                <p><strong>Género: </strong>{e.genres[0]?.name}</p> 
 
-                            {this.state.peliculaExpandidaId === e.id && <p>{e.overview}</p>}
+                                {this.state.peliculaExpandidaId === e.id && <p>{e.overview}</p>}
 
-                            <button onClick={() => this.verMasVerMenos(e.id)} className="more">
-                                {this.state.peliculaExpandidaId === e.id ? 'Ver menos' : 'Ver más'}
-                            </button>
-                        </div>
-                    ))}
-                </section>
+                                <button onClick={() => this.verMasVerMenos(e.id)} className="more">
+                                    {this.state.peliculaExpandidaId === e.id ? 'Ver menos' : 'Ver más'}
+                                </button>
+                            </div>
+                        ))}
+                    </section>
+                )}
             </>
         );
     }

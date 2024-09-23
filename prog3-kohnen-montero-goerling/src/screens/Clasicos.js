@@ -29,10 +29,16 @@ class ClasicosConBoton extends Component {
             .catch((err) => console.log(err));
     }
 
-    MasMenosPeliculas() {
-        this.setState(prevState => ({
-            MasMenos: !prevState.MasMenos
-        }));
+    MasMenosPeliculas(){
+        if(this.state.MasMenos === true){
+            this.setState({
+                MasMenos: false 
+            })
+        } else {
+            this.setState({
+                MasMenos: true, 
+            })
+        }
     }
 
     render() {
@@ -42,11 +48,13 @@ class ClasicosConBoton extends Component {
                 {this.state.cargando ? (
                     <p>Cargando...</p>  // Mensaje de carga
                 ) : (
+                    <>
                     <section className="card-container">
                         {this.state.peliculas.slice(0, 5).map((elm) => <Clasico data={elm} key={elm.id} />)}
                         {this.state.MasMenos === true ? <>{this.state.peliculas.slice(5, this.state.peliculas.length).map((elm) => <Clasico data={elm} key={elm.id} />)}</> : null}
-                        <button onClick={() => this.MasMenosPeliculas()} className='more'> Mas Peliculas</button>
                     </section>
+                    <button onClick={() => this.MasMenosPeliculas()} className='more'> Mas Peliculas</button>
+                    </>
                 )}
             </>
         );
