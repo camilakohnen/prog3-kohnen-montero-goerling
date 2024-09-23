@@ -6,6 +6,7 @@ import Navbar from "./components/Header";
 import Favoritos from "./screens/Favoritos";
 import NovedadesConBoton from "./screens/Novedades";
 import ClasicosConBoton from "./screens/Clasicos";
+import Resultados from "./screens/Resultados";
 import Footer from "./components/Footer";
 
 function App(props){
@@ -19,6 +20,7 @@ function App(props){
         <Route path='/novedades' component={NovedadesConBoton}></Route>
         <Route path='/clasicos' component={ClasicosConBoton}></Route>
         <Route path='/detalle/id/:id' component={Details}></Route>
+        <Route path='/results' exact={true} component={Resultados}></Route>
         <Route path='' component={NotFound}></Route>
       </Switch>
       <Footer/>
