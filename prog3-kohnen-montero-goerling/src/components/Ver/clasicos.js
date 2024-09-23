@@ -7,7 +7,7 @@ class Clasico extends Component {
         this.state = {
             verMas : false,
             esFavorito : false,
-            NombreBoton : "Ver más"
+            NombreBoton : "Ver más",
         }
     }
 

@@ -10,6 +10,7 @@ class Details extends Component {
             verMas: false,
             pelicula: null,
             esFavorito: false,
+            cargando: true,  // Estado de cargando
         };
     }
 
@@ -24,6 +25,10 @@ class Details extends Component {
                 });
                 // Verificar si la película es favorita al cargar
                 this.verificarFavorito(data.id);
+                // Cambiar el estado de cargando a false después de 3 segundos
+                setTimeout(() => {
+                    this.setState({ cargando: false });
+                }, 3000);
             })
             .catch((err) => console.log('Error al obtener datos:', err));
     }
@@ -82,7 +87,11 @@ class Details extends Component {
     }
 
     render() {
-        const { pelicula, verMas, esFavorito } = this.state;
+        const { pelicula, verMas, esFavorito, cargando } = this.state;
+
+        if (cargando) {
+            return <p>Cargando...</p>; // Mensaje de carga
+        }
 
         if (!pelicula) {
             return null; // No muestra nada si no hay datos de película
@@ -95,7 +104,6 @@ class Details extends Component {
                 <section className='extra'>
                     <p>Adultos: {pelicula.adult ? "atp" : "+18"}</p>
                     <p>{pelicula.release_date}</p>
-                    
                     {esFavorito ? (
                         <button onClick={() => this.sacarDeStorage()}>
                             Sacar de favs
@@ -107,9 +115,9 @@ class Details extends Component {
                     )}
                 </section>
                 {
-                        this.state.verMas === true ? <p>{pelicula.overview}</p> : null 
+                    this.state.verMas === true ? <p>{pelicula.overview}</p> : null 
                 }
-                <button onClick={ () => this.verMasVerMenos()} className='more'> Ver mas</button>
+                <button onClick={() => this.verMasVerMenos()} className='more'> Ver más</button>
             </div>
         );
     }

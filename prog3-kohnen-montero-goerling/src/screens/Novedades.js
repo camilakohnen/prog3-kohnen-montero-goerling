@@ -10,6 +10,7 @@ class NovedadesConBoton extends Component {
             verMas : false,
             peliculas:[],
             MasMenos : false, 
+            cargando: true,  // Estado de cargando
         }
     }
 
@@ -22,6 +23,10 @@ class NovedadesConBoton extends Component {
             this.setState({
                 peliculas: data.results
             })
+            // Cambia el estado de cargando a false después de 3 segundos
+            setTimeout(() => {
+                this.setState({ cargando: false });
+            }, 3000);
         })
         .catch((err) => console.log(err))
     }
@@ -42,11 +47,16 @@ class NovedadesConBoton extends Component {
         return (
             <>
                 <h2>Novedades</h2> 
+                {this.state.cargando ? (
+                    <p>Cargando...</p>  // Mensaje de carga
+                ) : (
                 <section className="card-container">
                     {this.state.peliculas.slice(0,3).map((elm)=> <Novedades data={elm}/>)}
                     {this.state.MasMenos === true ? <>{this.state.peliculas.slice(3, this.state.peliculas.length).map((elm)=> <Novedades data={elm}/>)}</> : null }
+                    <button onClick={ () => this.MasMenosPeliculas()} className='more'> Mas Peliculas</button>
                 </section>
-                <button onClick={ () => this.MasMenosPeliculas()} className='more'> Mas Peliculas</button>
+                
+                )}
             </>
         )
     }
