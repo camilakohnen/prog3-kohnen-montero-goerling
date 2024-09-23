@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import "./Peliculas.css";
 
 const APIKEY = '73bbcaff8fd928767c5142a00f422fa2';
 
