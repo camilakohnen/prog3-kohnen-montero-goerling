@@ -7,7 +7,6 @@ class Details extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            verMas: false,
             pelicula: null,
             esFavorito: false,
         };
@@ -75,26 +74,25 @@ class Details extends Component {
         }
     }
 
-    verMasVerMenos() {
-        this.setState(prevState => ({
-            verMas: !prevState.verMas
-        }));
-    }
+
 
     render() {
-        const { pelicula, verMas, esFavorito } = this.state;
+        const { pelicula, esFavorito } = this.state;
 
         if (!pelicula) {
             return null; // No muestra nada si no hay datos de película
         }
 
         return (
-            <div className="character-card">
-                <img src={`https://image.tmdb.org/t/p/w342/${pelicula.poster_path}`} alt={pelicula.title} />
-                <h2>{pelicula.title}</h2>
+            <div className="character-card-details">
+                <img src= {`https://image.tmdb.org/t/p/w342/${pelicula.poster_path}`} alt={pelicula.title} />
+                <h2><strong> {pelicula.title} </strong> </h2>
                 <section className='extra'>
-                    <p>Adultos: {pelicula.adult ? "atp" : "+18"}</p>
-                    <p>{pelicula.release_date}</p>
+                    <p> <strong>Fecha de estreno: </strong> {pelicula.release_date}</p>
+                    <p> <strong>Duración:</strong>  {pelicula.runtime}</p>
+                    <p> <strong>Rating:</strong>  {pelicula.popularity}</p>   
+                    <p> <strong>Género:</strong>  {pelicula.genres[0].name}</p>
+                    <p> <strong>Descripción: </strong> {pelicula.overview}</p>
                     
                     {esFavorito ? (
                         <button onClick={() => this.sacarDeStorage()}>
@@ -106,10 +104,7 @@ class Details extends Component {
                         </button>
                     )}
                 </section>
-                {
-                        this.state.verMas === true ? <p>{pelicula.overview}</p> : null 
-                }
-                <button onClick={ () => this.verMasVerMenos()} className='more'> Ver mas</button>
+                
             </div>
         );
     }
