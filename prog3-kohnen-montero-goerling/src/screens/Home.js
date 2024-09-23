@@ -1,5 +1,5 @@
 import React from "react";
-import NovSinBoton from "../components/VerTodos/NovSinBoton";
+import NovSinBoton from "../components/VerTodos/novedades";
 import ClaSinBoton from "../components/VerTodos/ClaSinBoton";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 
