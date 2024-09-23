@@ -25,39 +25,50 @@ class Details extends Component {
     }
 
     verificarFavorito(id) {
-        const storage = localStorage.getItem('pelisFavs');
-        this.setState({ esFavorito: storage ? JSON.parse(storage).includes(id) : false });
+        let storage = localStorage.getItem('pelisFavs');
+        if (storage !== null) {
+            let storageParseado = JSON.parse(storage);
+            if (storageParseado.includes(id)) {
+                this.setState({ esFavorito: true });
+            }
+        }
     }
 
     agregarAStorage() {
         const { pelicula } = this.state;
-        pelicula 
-            ? (() => {
-                const id = pelicula.id;
-                const storage = localStorage.getItem('pelisFavs');
-                const storageParseado = storage ? JSON.parse(storage) : [];
-                !storageParseado.includes(id)
-                    ? (() => {
-                        localStorage.setItem('pelisFavs', JSON.stringify([...storageParseado, id]));
-                        this.setState({ esFavorito: true });
-                    })()
-                    : null;
-            })()
-            : null;
+        if (pelicula) {
+            const id = pelicula.id;
+            let storage = localStorage.getItem('pelisFavs');
+            if (storage !== null) {
+                let storageParseado = JSON.parse(storage);
+                if (!storageParseado.includes(id)) {
+                    storageParseado.push(id);
+                    let storageStringificado = JSON.stringify(storageParseado);
+                    localStorage.setItem('pelisFavs', storageStringificado);
+                    this.setState({ esFavorito: true });
+                }
+            } else {
+                let arrFavs = [id];
+                let favsStringificado = JSON.stringify(arrFavs);
+                localStorage.setItem('pelisFavs', favsStringificado);
+                this.setState({ esFavorito: true });
+            }
+        }
     }
 
     sacarDeStorage() {
         const { pelicula } = this.state;
-        pelicula 
-            ? (() => {
-                const id = pelicula.id;
-                const storage = localStorage.getItem('pelisFavs');
-                const storageParseado = storage ? JSON.parse(storage) : [];
-                const filtrado = storageParseado.filter(idFav => idFav !== id);
-                localStorage.setItem('pelisFavs', JSON.stringify(filtrado));
+        if (pelicula) {
+            const id = pelicula.id;
+            let storage = localStorage.getItem('pelisFavs');
+            if (storage !== null) {
+                let storageParseado = JSON.parse(storage);
+                let filtrado = storageParseado.filter(idFav => idFav !== id);
+                let storageStringificado = JSON.stringify(filtrado);
+                localStorage.setItem('pelisFavs', storageStringificado);
                 this.setState({ esFavorito: false });
-            })()
-            : null;
+            }
+        }
     }
 
     render() {
